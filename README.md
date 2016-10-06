@@ -2,11 +2,11 @@
 [![Build Status](https://travis-ci.org/electric-it/xlrelease.svg?branch=develop)](https://travis-ci.org/electric-it/xlrelease)
 
 * [xebialabs.com](https://xebialabs.com)
-* Supported XL Release version: 4.0.x
+* Supported XL Release version: 5.0.x
 
 # Server requirements
 
-From [docs.xebialabs.com/xl-release/4.0.x/systemadminmanual.html](https://docs.xebialabs.com/xl-release/4.0.x/systemadminmanual.html):
+From [docs.xebialabs.com/xl-release/5.0.x/systemadminmanual.html](https://docs.xebialabs.com/xl-release/5.0.x/systemadminmanual.html):
 
 To install the XL Release server, the following prerequisites must be met:
 

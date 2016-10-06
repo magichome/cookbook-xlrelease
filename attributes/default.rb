@@ -1,40 +1,40 @@
 # ==================================================
 # XL Release version to install
 # ==================================================
-default['xlrelease']['version'] = '4.7.2'
+default['xlr']['version'] = '5.0.1'
 
 # ==================================================
 # Home directory for XL Release
 # ==================================================
-default['xlrelease']['installdir'] = '/opt'
-default['xlrelease']['home'] = "#{node['xlrelease']['installdir']}/xl-release-#{node['xlrelease']['version']}-server"
+default['xlr']['installdir'] = '/opt'
+default['xlr']['home'] = "#{node['xlr']['installdir']}/xl-release-#{node['xlr']['version']}-server"
 
 # ==================================================
 # The user/group to run as
 # ==================================================
-default['xlrelease']['user'] = 'xlrelease'
-default['xlrelease']['group'] = 'xlrelease'
+default['xlr']['user'] = 'xlrelease'
+default['xlr']['group'] = 'xlrelease'
 
 # ==================================================
 # Below attributes used to setup-config.txt for input into xlrelease installer
 # ==================================================
-default['xlrelease']['adminpassword'] = "password"
-default['xlrelease']['repository'] = "repository"
-default['xlrelease']['threads'] = "3"
-default['xlrelease']['ssl'] = "false"
-default['xlrelease']['csre'] = "true"
-default['xlrelease']['http_bind'] = '0.0.0.0'
-default['xlrelease']['http_context_root'] = '/'
-default['xlrelease']['threads_max'] = '24'
-default['xlrelease']['cstm'] = '0'
-default['xlrelease']['hide_internals'] = 'false'
-default['xlrelease']['import_packages'] = 'importablePackages'
-default['xlrelease']['port'] = '5516'
+default['xlr']['adminpassword'] = 'password'
+default['xlr']['repository'] = 'repository'
+default['xlr']['threads'] = '3'
+default['xlr']['ssl'] = 'false'
+default['xlr']['csre'] = 'true'
+default['xlr']['http_bind'] = '0.0.0.0'
+default['xlr']['http_context_root'] = '/'
+default['xlr']['threads_max'] = '24'
+default['xlr']['cstm'] = '0'
+default['xlr']['hide_internals'] = 'false'
+default['xlr']['import_packages'] = 'importablePackages'
+default['xlr']['port'] = '5516'
 
 # ==================================================
 # Attributes regarding the downloadable install zip
 # ==================================================
-default['xlrelease']['filename'] = "xl-release-#{node['xlrelease']['version']}-server.zip"
-default['xlrelease']['username'] = 'supplied by xebialabs'
-default['xlrelease']['password'] = 'supplied by xebialabs'
-default['xlrelease']['downloadurl'] = "https://#{node['xlrelease']['username']}:#{node['xlrelease']['password']}@dist.xebialabs.com/xl-release/#{node['xlrelease']['version']}/#{node['xlrelease']['filename']}"
+default['xlr']['filename'] = "xl-release-#{node['xlr']['version']}-server.zip"
+default['xlr']['username'] = '<xebialabs customer username>'
+default['xlr']['password'] = '<xebialabs customer password>'
+default['xlr']['downloadurl'] = "https://#{node['xlr']['username']}:#{node['xlr']['password']}@dist.xebialabs.com/xl-release/#{node['xlr']['version']}/#{node['xlr']['filename']}"

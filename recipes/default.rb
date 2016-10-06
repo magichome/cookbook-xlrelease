@@ -1,14 +1,14 @@
 # ==================================================
 # Java setup
 # ==================================================
-include_recipe "java::default"
+include_recipe 'java::default'
 
 # ==================================================
 # Setup OS users and groups
 # ==================================================
 group 'xlrelease' do
   action :create
-  group_name node['xlrelease']['group']
+  group_name node['xlr']['group']
 end
 
 # ==================================================
@@ -16,60 +16,60 @@ end
 # ==================================================
 user 'xlrelease' do
   action :create
-  username  node['xlrelease']['user']
-  gid       node['xlrelease']['group']
-  comment   "XL Release system user"
+  username  node['xlr']['user']
+  gid       node['xlr']['group']
+  comment   'XL Release system user'
   system    true
-  shell     "/bin/false"
+  shell     '/bin/false'
 end
 
 # ==================================================
 # Download XL Release install zip
 # ==================================================
-remote_file "#{node['xlrelease']['installdir']}/#{node['xlrelease']['filename']}" do
-  source node['xlrelease']['downloadurl']
+remote_file "#{node['xlr']['installdir']}/#{node['xlr']['filename']}" do
+  source node['xlr']['downloadurl']
 end
 
 # ==================================================
 # Unzip install zip
 # ==================================================
-package "unzip" do
+package 'unzip' do
   action :install
 end
-execute "unzip installation archive" do
-  command "unzip #{node['xlrelease']['installdir']}/#{node['xlrelease']['filename']} -d #{node['xlrelease']['installdir']}"
+execute 'unzip installation archive' do
+  command "unzip #{node['xlr']['installdir']}/#{node['xlr']['filename']} -d #{node['xlr']['installdir']}"
 end
 
 # ==================================================
 # Chown install directory
 # ==================================================
-execute "update ownership" do
-  command "chown -R xlrelease:xlrelease #{node['xlrelease']['home']}"
+execute 'update ownership' do
+  command "chown -R xlrelease:xlrelease #{node['xlr']['home']}"
 end
 
 # ==================================================
 # Create the input file for the installer
 # ==================================================
-template "setup-config" do
-  source  "setup-config.txt.erb"
-  path    "#{node['xlrelease']['home']}/setup-config.txt"
-  owner   node['xlrelease']['user']
-  group   node['xlrelease']['group']
-  mode    "0600"
-    variables(
-    :adminpassword  => node['xlrelease']['adminpassword'],
-    :repository  => node['xlrelease']['repository'],
-    :threads  => node['xlrelease']['threads'],
-    :ssl  => node['xlrelease']['ssl'],
-    :csre  => node['xlrelease']['csre'],
-    :http_bind  => node['xlrelease']['http_bind'],
-    :http_context_root  => node['xlrelease']['http_context_root'],
-    :threads_max  => node['xlrelease']['threads_max'],
-    :cstm => node['xlrelease']['cstm'],
-    :hide_internals => node['xlrelease']['hide_internals'],
-    :import_packages => node['xlrelease']['import_packages'],
-    :port => node['xlrelease']['port']
-    )
+template 'setup-config' do
+  source  'setup-config.txt.erb'
+  path    "#{node['xlr']['home']}/setup-config.txt"
+  owner   node['xlr']['user']
+  group   node['xlr']['group']
+  mode    '0600'
+  variables(
+    adminpassword: node['xlr']['adminpassword'],
+    repository: node['xlr']['repository'],
+    threads: node['xlr']['threads'],
+    ssl: node['xlr']['ssl'],
+    csre: node['xlr']['csre'],
+    http_bind: node['xlr']['http_bind'],
+    http_context_root: node['xlr']['http_context_root'],
+    threads_max: node['xlr']['threads_max'],
+    cstm: node['xlr']['cstm'],
+    hide_internals: node['xlr']['hide_internals'],
+    import_packages: node['xlr']['import_packages'],
+    port: node['xlr']['port']
+  )
 
   notifies :run, 'execute[install-xlrelease]', :immediately
 end
@@ -77,31 +77,31 @@ end
 # ==================================================
 # Run the installer
 # ==================================================
-execute "install-xlrelease" do
-  user    node['xlrelease']['user']
-  group   node['xlrelease']['group']
-  cwd     "#{node['xlrelease']['home']}/bin"
-  command "./server.sh -setup -reinitialize -force -setup-defaults #{node['xlrelease']['home']}/setup-config.txt &> #{node['xlrelease']['home']}/install.log"
-  creates "#{node['xlrelease']['home']}/install.log"
+execute 'install-xlrelease' do
+  user    node['xlr']['user']
+  group   node['xlr']['group']
+  cwd     "#{node['xlr']['home']}/bin"
+  command "./server.sh -setup -reinitialize -force -setup-defaults #{node['xlr']['home']}/setup-config.txt &> #{node['xlr']['home']}/install.log"
+  creates "#{node['xlr']['home']}/install.log"
   action :nothing
 end
 
 # ==================================================
 # Runit configuration
 # ==================================================
-include_recipe "runit::default"
+include_recipe 'runit::default'
 
 # ==================================================
-#Create the service resource
+# Create the service resource
 # ==================================================
-runit_service "xlrelease" do
-  sv_dir "/etc/sv"
-  service_dir "/etc/service"
-  owner node['xlrelease']['user']
-  group node['xlrelease']['group']
+runit_service 'xlrelease' do
+  sv_dir '/etc/sv'
+  service_dir '/etc/service'
+  owner node['xlr']['user']
+  group node['xlr']['group']
 end
 
-directory "/etc/sv/xlrelease/control" do
+directory '/etc/sv/xlrelease/control' do
   owner 'root'
   group 'root'
   mode '0644'
